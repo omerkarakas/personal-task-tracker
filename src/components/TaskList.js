@@ -3,94 +3,107 @@ import { Box, Button, Container, IconButton, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import * as React from 'react';
 import { useContext } from 'react';
-import { useState } from 'react';
 import AppContext from '../context/AppContext';
 import { CustomizedBox } from './CustomizedBox';
 
-let prios = [];
-
-const renderPriorityButton = (params) => {
-  let priorityId = Number(params.row.priority);
-  let boxColor = '#FFF';
-  let priorityText = '';
-  if (prios.length > 1) {
-    let priority = prios.find((pr) => pr.id === priorityId);
-    boxColor = priority.color;
-    priorityText = priority.title;
-  }
-
-  return (
-    <>
-      <Box
-        sx={{
-          width: 80,
-          height: 30,
-          backgroundColor: boxColor,
-        }}
-      >
-        <Typography align="center" sx={{ userSelect: false }}>
-          {priorityText}
-        </Typography>
-      </Box>
-    </>
-  );
-};
-
-const renderActionsButton = (params) => {
-  // console.log(params);
-  return (
-    <>
-      <IconButton
-        color="info"
-        onClick={() => {
-          alert('row to be edited:' + params.row.id);
-        }}
-      >
-        <EditOutlined />
-      </IconButton>
-
-      <IconButton
-        color="warning"
-        onClick={() => {
-          alert('row to be deleted:' + params.row.id);
-        }}
-      >
-        <DeleteOutlined />
-      </IconButton>
-    </>
-  );
-};
-
-const columns = [
-  { field: 'id', headerName: 'Id', width: 0, disableClickEventBubbling: true },
-  {
-    field: 'name',
-    headerName: 'Job Name',
-    width: 280,
-    disableClickEventBubbling: true,
-  },
-  {
-    field: 'priority',
-    headerName: 'Priority',
-    width: 100,
-    renderCell: renderPriorityButton,
-    disableClickEventBubbling: true,
-  },
-  {
-    field: '',
-    headerName: 'Action',
-    sortable: false,
-    width: 100,
-    renderCell: renderActionsButton,
-    disableClickEventBubbling: true,
-  },
-];
-
 const TaskList = () => {
-  const { tasks, priorities } = useContext(AppContext);
+  const {
+    tasks,
+    initialPriorities,
+    priorities,
+    deleteTask,
+    editTask,
+    openModalInsert,
+    openConfirm,
+  } = useContext(AppContext);
 
-  prios = priorities;
-  // const [rows, setRows] = useState(tasks);
+  const deleteTaskHandler = (taskId) => {
+    console.log('task to be deleted :', taskId);
+    openConfirm(taskId);
+  };
+
+  const renderPriorityButton = (params) => {
+    let priorityId = Number(params.row.priority);
+    let boxColor = '#FFF';
+    let priorityText = '';
+    if (priorities.length > 1) {
+      let priority = priorities.find((pr) => pr.id === priorityId);
+      boxColor = priority.color;
+      priorityText = priority.title;
+    }
+
+    return (
+      <>
+        <Box
+          sx={{
+            width: 80,
+            height: 30,
+            backgroundColor: boxColor,
+          }}
+        >
+          <Typography align="center" sx={{ userSelect: false }}>
+            {priorityText}
+          </Typography>
+        </Box>
+      </>
+    );
+  };
+
+  const renderActionsButton = (params) => {
+    // console.log(params);
+    return (
+      <>
+        <IconButton
+          color="primary"
+          onClick={() => {
+            editTask(params.row.id);
+          }}
+        >
+          <EditOutlined />
+        </IconButton>
+
+        <IconButton
+          color="secondary"
+          onClick={() => {
+            //alert('row to be deleted:' + params.row.id);
+            deleteTaskHandler(params.row.id);
+          }}
+        >
+          <DeleteOutlined />
+        </IconButton>
+      </>
+    );
+  };
+
+  const columns = [
+    {
+      field: 'id',
+      headerName: 'Id',
+      width: 0,
+      disableClickEventBubbling: true,
+    },
+    {
+      field: 'name',
+      headerName: 'Job Name',
+      width: 280,
+      disableClickEventBubbling: true,
+    },
+    {
+      field: 'priority',
+      headerName: 'Priority',
+      width: 100,
+      renderCell: renderPriorityButton,
+      disableClickEventBubbling: true,
+    },
+    {
+      field: '',
+      headerName: 'Action',
+      sortable: false,
+      width: 100,
+      renderCell: renderActionsButton,
+      disableClickEventBubbling: true,
+    },
+  ];
 
   if (!tasks) {
     return (
@@ -103,12 +116,13 @@ const TaskList = () => {
   return (
     <Container>
       <CustomizedBox>
+        <Button variant="outlined" onClick={openModalInsert}>
+          Add Task
+        </Button>
+
         <Typography variant="h6" color="textPrimary">
           Job List
         </Typography>
-        {/* {tasks.map((task, index) => {
-          return <p key={index}>{task.name}</p>;
-        })} */}
         <div style={{ height: 400, width: '100%' }}>
           <DataGrid
             rows={tasks}
@@ -119,9 +133,11 @@ const TaskList = () => {
             initialState={{
               columns: {
                 columnVisibilityModel: {
-                  // Hide columns status and traderName, the other columns will remain visible
                   id: false,
                 },
+              },
+              sorting: {
+                sortModel: [{ field: 'priority', sort: 'asc' }],
               },
             }}
           />

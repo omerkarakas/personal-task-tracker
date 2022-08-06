@@ -10,20 +10,34 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useContext } from 'react';
 import { useState } from 'react';
 import AppContext from '../context/AppContext';
 import { CustomizedBox } from './CustomizedBox';
 
 const CreateTask = () => {
-  const [jobName, setJobName] = useState('');
+  const {
+    initialPriorities,
+    priorities,
+    addTask,
+    updateTask,
+    closeModal,
+    currentTask,
+    action,
+  } = useContext(AppContext);
+
+  const initialJob = {
+    id: 0,
+    name: '',
+    priority: priorities[0].id || 1,
+  };
+
+  const [jobId, setJobId] = useState(initialJob.id);
+  const [jobName, setJobName] = useState(initialJob.name);
+  const [jobPriority, setJobPriority] = useState(initialJob.priority); //(priorities[0].id);
+
   const [jobNameError, setJobNameError] = useState(false);
-
-  const { priorities, addTask } = useContext(AppContext);
-  //  console.log('priorities:', priorities);
-
-  const [jobPriority, setJobPriority] = useState(priorities[0].id);
   const [jobPriorityError, setJobPriorityError] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -34,15 +48,33 @@ const CreateTask = () => {
     if (!jobName) setJobNameError(true);
     if (!jobPriority) setJobPriorityError(true);
 
-    // if (jobName && jobPriority) {
-    //   console.log('should success');
-    // }
-    console.log(jobName, jobPriority);
-
     if (jobName && jobPriority) {
-      addTask(jobName, jobPriority);
+      if (!jobId) {
+        addTask(jobName, jobPriority);
+      } else {
+        updateTask(jobId, jobName, jobPriority);
+      }
+
+      setJobName(initialJob.name);
+      setJobPriority(initialJob.priority);
+      setJobId(initialJob.id);
+      closeModal();
     }
   };
+
+  useEffect(() => {
+    console.log('ue,currentTask', currentTask);
+
+    if (currentTask) {
+      setJobName(currentTask.name);
+      setJobPriority(currentTask.priority);
+      setJobId(currentTask.id);
+    } else {
+      setJobName(initialJob.name);
+      setJobPriority(initialJob.priority);
+      setJobId(initialJob.id);
+    }
+  }, [currentTask]);
 
   if (!priorities) {
     return 'Still Loading';
@@ -62,6 +94,8 @@ const CreateTask = () => {
               label="Job Name"
               color="secondary"
               required
+              value={jobName}
+              disabled={action === 'update'}
               // multilinema
               // rows={3}
               // fullWidth
@@ -77,7 +111,6 @@ const CreateTask = () => {
               flexDirection: 'row',
               justifyContent: 'space-evenly',
               alignItems: 'center',
-
               height: '50px',
             }}
           >
@@ -96,13 +129,22 @@ const CreateTask = () => {
                   setJobPriority(newValue.props.value);
                 }}
               >
-                {priorities.map((priority, index) => {
-                  return (
-                    <MenuItem key={index} value={priority.id}>
-                      {priority.title}
-                    </MenuItem>
-                  );
-                })}
+                {priorities &&
+                  priorities.map((priority, index) => {
+                    return (
+                      <MenuItem key={index} value={priority.id}>
+                        {priority.title}
+                      </MenuItem>
+                    );
+                  })}
+                {!priorities &&
+                  initialPriorities.map((priority, index) => {
+                    return (
+                      <MenuItem key={index} value={priority.id}>
+                        {priority.title}
+                      </MenuItem>
+                    );
+                  })}
               </Select>
             </FormControl>
 
@@ -113,7 +155,8 @@ const CreateTask = () => {
               startIcon={<AddCircleOutline />}
               sx={{ marginLeft: 2 }}
             >
-              Submit
+              {action === 'update' && 'Update'}
+              {action === 'insert' && 'Insert'}
             </Button>
           </Box>
         </CustomizedBox>
