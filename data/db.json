@@ -1,0 +1,19 @@
+{
+  "priority": [
+    {
+      "title": "Urgent",
+      "color": "red",
+      "id": 1
+    },
+    {
+      "title": "Important",
+      "color": "yellow",
+      "id": 2
+    },
+    {
+      "title": "Regular",
+      "color": "green",
+      "id": 3
+    }
+  ]
+}
