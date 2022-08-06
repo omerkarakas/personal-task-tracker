@@ -7,15 +7,7 @@ import AppContext from '../context/AppContext';
 import { CustomizedBox } from './CustomizedBox';
 
 const TaskList = () => {
-  const {
-    tasks,
-    initialPriorities,
-    priorities,
-    deleteTask,
-    editTask,
-    openModalInsert,
-    openConfirm,
-  } = useContext(AppContext);
+  const { tasks, priorities, editTask, openModalInsert, openConfirm } = useContext(AppContext);
 
   const deleteTaskHandler = (taskId) => {
     console.log('task to be deleted :', taskId);
@@ -38,9 +30,8 @@ const TaskList = () => {
           sx={{
             width: 80,
             height: 30,
-            backgroundColor: boxColor,
-          }}
-        >
+            backgroundColor: boxColor
+          }}>
           <Typography align="center" sx={{ userSelect: false }}>
             {priorityText}
           </Typography>
@@ -57,18 +48,17 @@ const TaskList = () => {
           color="primary"
           onClick={() => {
             editTask(params.row.id);
-          }}
-        >
+          }}>
           <EditOutlined />
         </IconButton>
 
         <IconButton
           color="secondary"
+          className="btn-icon-delete"
           onClick={() => {
             //alert('row to be deleted:' + params.row.id);
             deleteTaskHandler(params.row.id);
-          }}
-        >
+          }}>
           <DeleteOutlined />
         </IconButton>
       </>
@@ -80,20 +70,20 @@ const TaskList = () => {
       field: 'id',
       headerName: 'Id',
       width: 0,
-      disableClickEventBubbling: true,
+      disableClickEventBubbling: true
     },
     {
       field: 'name',
       headerName: 'Job Name',
       width: 280,
-      disableClickEventBubbling: true,
+      disableClickEventBubbling: true
     },
     {
       field: 'priority',
       headerName: 'Priority',
       width: 100,
       renderCell: renderPriorityButton,
-      disableClickEventBubbling: true,
+      disableClickEventBubbling: true
     },
     {
       field: '',
@@ -101,8 +91,8 @@ const TaskList = () => {
       sortable: false,
       width: 100,
       renderCell: renderActionsButton,
-      disableClickEventBubbling: true,
-    },
+      disableClickEventBubbling: true
+    }
   ];
 
   if (!tasks) {
@@ -116,7 +106,7 @@ const TaskList = () => {
   return (
     <Container>
       <CustomizedBox>
-        <Button variant="outlined" onClick={openModalInsert}>
+        <Button id="addTaskBtn" variant="outlined" onClick={openModalInsert}>
           Add Task
         </Button>
 
@@ -128,17 +118,18 @@ const TaskList = () => {
             rows={tasks}
             columns={columns}
             pageSize={10}
-            rowsPerPageOptions={[2]}
+            rowsPerPageOptions={[5, 10]}
+            pagination
             disableMultipleSelection={true}
             initialState={{
               columns: {
                 columnVisibilityModel: {
-                  id: false,
-                },
+                  id: false
+                }
               },
               sorting: {
-                sortModel: [{ field: 'priority', sort: 'asc' }],
-              },
+                sortModel: [{ field: 'priority', sort: 'asc' }]
+              }
             }}
           />
         </div>

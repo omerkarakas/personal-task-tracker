@@ -1,3 +1,4 @@
+import React, { useEffect, useState, useContext } from 'react';
 import { AddCircleOutline } from '@mui/icons-material';
 import {
   Box,
@@ -8,34 +9,24 @@ import {
   MenuItem,
   Select,
   TextField,
-  Typography,
+  Typography
 } from '@mui/material';
-import React, { useEffect } from 'react';
-import { useContext } from 'react';
-import { useState } from 'react';
 import AppContext from '../context/AppContext';
 import { CustomizedBox } from './CustomizedBox';
 
 const CreateTask = () => {
-  const {
-    initialPriorities,
-    priorities,
-    addTask,
-    updateTask,
-    closeModal,
-    currentTask,
-    action,
-  } = useContext(AppContext);
+  const { initialPriorities, priorities, addTask, updateTask, closeModal, currentTask, action } =
+    useContext(AppContext);
 
   const initialJob = {
     id: 0,
     name: '',
-    priority: priorities[0].id || 1,
+    priority: priorities[0].id || initialPriorities[0].id
   };
 
   const [jobId, setJobId] = useState(initialJob.id);
   const [jobName, setJobName] = useState(initialJob.name);
-  const [jobPriority, setJobPriority] = useState(initialJob.priority); //(priorities[0].id);
+  const [jobPriority, setJobPriority] = useState(initialJob.priority);
 
   const [jobNameError, setJobNameError] = useState(false);
   const [jobPriorityError, setJobPriorityError] = useState(false);
@@ -63,7 +54,7 @@ const CreateTask = () => {
   };
 
   useEffect(() => {
-    console.log('ue,currentTask', currentTask);
+    //console.log('ue,currentTask', currentTask);
 
     if (currentTask) {
       setJobName(currentTask.name);
@@ -101,7 +92,7 @@ const CreateTask = () => {
               // fullWidth
               error={jobNameError}
               sx={{
-                marginBottom: 2,
+                marginBottom: 2
               }}
             />
           </FormControl>
@@ -111,24 +102,24 @@ const CreateTask = () => {
               flexDirection: 'row',
               justifyContent: 'space-evenly',
               alignItems: 'center',
-              height: '50px',
-            }}
-          >
+              height: '50px'
+            }}>
             <FormControl fullWidth>
               <InputLabel id="priority-label">Priority</InputLabel>
               <Select
                 labelId="priority-label"
                 id="priority-select"
+                defaultValue={''}
                 value={jobPriority}
                 label="Priority"
                 error={jobPriorityError}
                 required
+                data-testid="select-option"
                 onChange={(event, newValue) => {
                   console.log('ev:', event);
                   console.log('val:', newValue);
                   setJobPriority(newValue.props.value);
-                }}
-              >
+                }}>
                 {priorities &&
                   priorities.map((priority, index) => {
                     return (
@@ -153,8 +144,7 @@ const CreateTask = () => {
               color="primary"
               variant="contained"
               startIcon={<AddCircleOutline />}
-              sx={{ marginLeft: 2 }}
-            >
+              sx={{ marginLeft: 2 }}>
               {action === 'update' && 'Update'}
               {action === 'insert' && 'Insert'}
             </Button>

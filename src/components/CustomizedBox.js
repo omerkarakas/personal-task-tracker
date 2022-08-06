@@ -6,5 +6,5 @@ export const CustomizedBox = styled(Box)(() => ({
   marginBottom: 20,
   display: 'flex',
   flexDirection: 'column',
-  width: '100%',
+  width: '100%'
 }));

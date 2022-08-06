@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 // import { v4 as uuidv4 } from 'uuid';
 
 const url = 'http://localhost:5000/priority';
@@ -7,7 +8,7 @@ const AppContext = createContext(null);
 const initialTasks = [
   { id: 1, name: 'Go shopping', priority: 2 },
   { id: 2, name: 'Work hard', priority: 1 },
-  { id: 3, name: 'Be yourself, no matter what they say', priority: 1 },
+  { id: 3, name: 'Be yourself, no matter what they say', priority: 1 }
 ];
 
 const initialPriorities = [{ id: 1, title: 'Anything', color: 'purple' }];
@@ -23,7 +24,7 @@ export const AppProvider = ({ children }) => {
   const [currentTask, setCurrentTask] = useState({});
   const [showModalConfirm, setShowModalConfirm] = useState(false);
 
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  // const [confirmDelete, setConfirmDelete] = useState(false);
   const [taskIdForDelete, setTaskIdForDelete] = useState(0);
 
   const editTask = (taskId) => {
@@ -68,19 +69,13 @@ export const AppProvider = ({ children }) => {
     let task = tasks.find((item) => item.id === taskId);
     let others = tasks.filter((item) => item.id !== taskId);
 
-    setTasks((list) => [
-      { id: task.id, name: taskName, priority: taskPriority },
-      ...others,
-    ]);
+    setTasks([{ id: task.id, name: taskName, priority: taskPriority }, ...others]);
     setAction('insert');
   };
 
   const addTask = (jobName, jobPriority) => {
     setNextTaskId((id) => id + 1);
-    setTasks((list) => [
-      ...list,
-      { id: nextTaskId + 1, name: jobName, priority: jobPriority },
-    ]);
+    setTasks((list) => [...list, { id: nextTaskId + 1, name: jobName, priority: jobPriority }]);
     setAction('insert');
   };
 
@@ -88,7 +83,7 @@ export const AppProvider = ({ children }) => {
     const fetchPriorities = async () => {
       const response = await fetch(url);
       const data = await response.json();
-      console.log('fetch::::', data);
+      //      console.log('fetch::::', data);
       setPriorities(data);
     };
     fetchPriorities();
@@ -126,13 +121,15 @@ export const AppProvider = ({ children }) => {
         action,
         openConfirm,
         closeConfirm,
-        showModalConfirm,
-        setConfirmDelete,
-      }}
-    >
+        showModalConfirm
+      }}>
       {children}
     </AppContext.Provider>
   );
+};
+
+AppProvider.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired
 };
 
 export default AppContext;

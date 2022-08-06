@@ -39,12 +39,12 @@ code {
   position: relative;
 }
 .close-modal-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 2rem;
-  background: transparent;
-  border-color: transparent;
-  color: red;
-  cursor: pointer;
+  position: absolute !important;
+  top: 1rem !important;
+  right: 1rem !important;
+  font-size: 2rem !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  color: red !important;
+  cursor: pointer !important;
 }
