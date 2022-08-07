@@ -1,4 +1,3 @@
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { AppProvider } from './context/AppContext';
 import Home from './Home';
@@ -27,11 +26,6 @@ function App() {
     <ThemeProvider theme={theme}>
       <AppProvider>
         <Home />
-        {/* <Router>
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-          </Routes>
-        </Router> */}
       </AppProvider>
     </ThemeProvider>
   );

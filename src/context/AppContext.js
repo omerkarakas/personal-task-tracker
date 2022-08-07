@@ -1,8 +1,8 @@
 import { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const url = '/priority';
-//const url = 'http://localhost:5000/priority';
+//const url = '/priority';
+const url = 'http://localhost:5000/priority';
 
 const AppContext = createContext(null);
 
@@ -35,7 +35,6 @@ export const AppProvider = ({ children }) => {
   const [currentTask, setCurrentTask] = useState({});
   const [showModalConfirm, setShowModalConfirm] = useState(false);
 
-  // const [confirmDelete, setConfirmDelete] = useState(false);
   const [taskIdForDelete, setTaskIdForDelete] = useState(0);
 
   const editTask = (taskId) => {
@@ -94,7 +93,6 @@ export const AppProvider = ({ children }) => {
     const fetchPriorities = async () => {
       const response = await fetch(url);
       const data = await response.json();
-      //      console.log('fetch::::', data);
       setPriorities(data);
     };
     fetchPriorities();
