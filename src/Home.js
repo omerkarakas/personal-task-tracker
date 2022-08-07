@@ -11,7 +11,8 @@ const Home = () => {
     useContext(AppContext);
 
   return (
-    <Container>
+    <Container
+      sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100vh' }}>
       <Header />
       <TaskList />
       <Modal open={modalOpen} close={closeModal}>

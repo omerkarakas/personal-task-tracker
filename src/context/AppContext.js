@@ -1,8 +1,9 @@
 import { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-// import { v4 as uuidv4 } from 'uuid';
 
-const url = 'http://localhost:5000/priority';
+const url = '/priority';
+//const url = 'http://localhost:5000/priority';
+
 const AppContext = createContext(null);
 
 const initialTasks = [
@@ -13,9 +14,19 @@ const initialTasks = [
 
 const initialPriorities = [{ id: 1, title: 'Anything', color: 'purple' }];
 
+const getStorageTasks = () => {
+  let tasks = initialTasks;
+  console.log(tasks);
+  if (localStorage.getItem('tasks')) {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+    console.log(tasks);
+  }
+  return tasks;
+};
+
 export const AppProvider = ({ children }) => {
   const [priorities, setPriorities] = useState([initialPriorities]);
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState(getStorageTasks());
   const [nextTaskId, setNextTaskId] = useState(0);
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -90,8 +101,6 @@ export const AppProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    // console.log(nextTaskId);
-    // console.log(tasks);
     if (tasks.length > 0) {
       setNextTaskId(
         tasks.reduce((max, task) => {
@@ -100,7 +109,7 @@ export const AppProvider = ({ children }) => {
         }, 0)
       );
     }
-    //    console.log('next id:', nextTaskId);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
   return (

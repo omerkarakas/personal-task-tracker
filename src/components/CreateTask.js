@@ -74,7 +74,8 @@ const CreateTask = () => {
   return (
     <Container>
       <Typography variant="h6" color="textPrimary" gutterBottom>
-        Create New Job
+        {action === 'update' && 'Update an Existing Job'}
+        {action === 'insert' && 'Create a New Job'}
       </Typography>
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <CustomizedBox>
@@ -87,9 +88,6 @@ const CreateTask = () => {
               required
               value={jobName}
               disabled={action === 'update'}
-              // multilinema
-              // rows={3}
-              // fullWidth
               error={jobNameError}
               sx={{
                 marginBottom: 2
@@ -114,7 +112,7 @@ const CreateTask = () => {
                 label="Priority"
                 error={jobPriorityError}
                 required
-                data-testid="select-option"
+                // data-testid="select-option"
                 onChange={(event, newValue) => {
                   console.log('ev:', event);
                   console.log('val:', newValue);

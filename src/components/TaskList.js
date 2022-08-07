@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined } from '@mui/icons-material';
-import { Box, Button, Container, IconButton, Typography } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import * as React from 'react';
 import { useContext } from 'react';
@@ -70,28 +70,32 @@ const TaskList = () => {
       field: 'id',
       headerName: 'Id',
       width: 0,
-      disableClickEventBubbling: true
+      disableClickEventBubbling: true,
+      flex: 1
     },
     {
       field: 'name',
       headerName: 'Job Name',
-      width: 280,
-      disableClickEventBubbling: true
+      width: 150,
+      disableClickEventBubbling: true,
+      flex: 1
     },
     {
       field: 'priority',
       headerName: 'Priority',
-      width: 100,
+      width: 90,
       renderCell: renderPriorityButton,
-      disableClickEventBubbling: true
+      disableClickEventBubbling: true,
+      flex: 1
     },
     {
       field: '',
       headerName: 'Action',
       sortable: false,
-      width: 100,
+      width: 80,
       renderCell: renderActionsButton,
-      disableClickEventBubbling: true
+      disableClickEventBubbling: true,
+      flex: 1
     }
   ];
 
@@ -104,16 +108,16 @@ const TaskList = () => {
   }
 
   return (
-    <Container>
-      <CustomizedBox>
-        <Button id="addTaskBtn" variant="outlined" onClick={openModalInsert}>
-          Add Task
-        </Button>
+    <CustomizedBox style={{ height: '100%' }}>
+      <Button id="addTaskBtn" variant="outlined" onClick={openModalInsert}>
+        Add Task
+      </Button>
 
+      <CustomizedBox style={{ height: '100%' }}>
         <Typography variant="h6" color="textPrimary">
           Job List
         </Typography>
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ height: 400, width: '100%', flex: 1 }}>
           <DataGrid
             rows={tasks}
             columns={columns}
@@ -134,7 +138,7 @@ const TaskList = () => {
           />
         </div>
       </CustomizedBox>
-    </Container>
+    </CustomizedBox>
   );
 };
 
