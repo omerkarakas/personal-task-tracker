@@ -9,7 +9,7 @@ const AppContext = createContext(null);
 const initialTasks = [
   { id: 1, name: 'Go shopping', priority: 2 },
   { id: 2, name: 'Work hard', priority: 1 },
-  { id: 3, name: 'Be yourself, no matter what they say', priority: 1 }
+  { id: 3, name: 'Be yourself, no matter what they say', priority: 1 },
 ];
 
 const initialPriorities = [{ id: 1, title: 'Anything', color: 'purple' }];
@@ -17,8 +17,8 @@ const initialPriorities = [{ id: 1, title: 'Anything', color: 'purple' }];
 const getStorageTasks = () => {
   let tasks = initialTasks;
   console.log(tasks);
-  if (localStorage.getItem('tasks')) {
-    tasks = JSON.parse(localStorage.getItem('tasks'));
+  if (localStorage.getItem('tasks-ptt')) {
+    tasks = JSON.parse(localStorage.getItem('tasks-ptt'));
     console.log(tasks);
   }
   return tasks;
@@ -79,13 +79,19 @@ export const AppProvider = ({ children }) => {
     let task = tasks.find((item) => item.id === taskId);
     let others = tasks.filter((item) => item.id !== taskId);
 
-    setTasks([{ id: task.id, name: taskName, priority: taskPriority }, ...others]);
+    setTasks([
+      { id: task.id, name: taskName, priority: taskPriority },
+      ...others,
+    ]);
     setAction('insert');
   };
 
   const addTask = (jobName, jobPriority) => {
     setNextTaskId((id) => id + 1);
-    setTasks((list) => [...list, { id: nextTaskId + 1, name: jobName, priority: jobPriority }]);
+    setTasks((list) => [
+      ...list,
+      { id: nextTaskId + 1, name: jobName, priority: jobPriority },
+    ]);
     setAction('insert');
   };
 
@@ -107,7 +113,7 @@ export const AppProvider = ({ children }) => {
         }, 0)
       );
     }
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem('tasks-ptt', JSON.stringify(tasks));
   }, [tasks]);
 
   return (
@@ -128,15 +134,19 @@ export const AppProvider = ({ children }) => {
         action,
         openConfirm,
         closeConfirm,
-        showModalConfirm
-      }}>
+        showModalConfirm,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );
 };
 
 AppProvider.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 
 export default AppContext;

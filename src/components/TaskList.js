@@ -7,7 +7,8 @@ import AppContext from '../context/AppContext';
 import { CustomizedBox } from './CustomizedBox';
 
 const TaskList = () => {
-  const { tasks, priorities, editTask, openModalInsert, openConfirm } = useContext(AppContext);
+  const { tasks, priorities, editTask, openModalInsert, openConfirm } =
+    useContext(AppContext);
 
   const deleteTaskHandler = (taskId) => {
     console.log('task to be deleted :', taskId);
@@ -30,8 +31,9 @@ const TaskList = () => {
           sx={{
             width: 80,
             height: 30,
-            backgroundColor: boxColor
-          }}>
+            backgroundColor: boxColor,
+          }}
+        >
           <Typography align="center" sx={{ userSelect: false }}>
             {priorityText}
           </Typography>
@@ -48,7 +50,8 @@ const TaskList = () => {
           color="primary"
           onClick={() => {
             editTask(params.row.id);
-          }}>
+          }}
+        >
           <EditOutlined />
         </IconButton>
 
@@ -58,7 +61,8 @@ const TaskList = () => {
           onClick={() => {
             //alert('row to be deleted:' + params.row.id);
             deleteTaskHandler(params.row.id);
-          }}>
+          }}
+        >
           <DeleteOutlined />
         </IconButton>
       </>
@@ -71,14 +75,14 @@ const TaskList = () => {
       headerName: 'Id',
       width: 0,
       disableClickEventBubbling: true,
-      flex: 1
+      flex: 1,
     },
     {
       field: 'name',
       headerName: 'Job Name',
       width: 150,
       disableClickEventBubbling: true,
-      flex: 1
+      flex: 1,
     },
     {
       field: 'priority',
@@ -86,7 +90,7 @@ const TaskList = () => {
       width: 90,
       renderCell: renderPriorityButton,
       disableClickEventBubbling: true,
-      flex: 1
+      flex: 1,
     },
     {
       field: '',
@@ -95,8 +99,8 @@ const TaskList = () => {
       width: 80,
       renderCell: renderActionsButton,
       disableClickEventBubbling: true,
-      flex: 1
-    }
+      flex: 1,
+    },
   ];
 
   if (!tasks) {
@@ -122,18 +126,19 @@ const TaskList = () => {
             rows={tasks}
             columns={columns}
             pageSize={10}
+            getRowId={(row) => row.id}
             rowsPerPageOptions={[5, 10]}
             pagination
             disableMultipleSelection={true}
             initialState={{
               columns: {
                 columnVisibilityModel: {
-                  id: false
-                }
+                  id: false,
+                },
               },
               sorting: {
-                sortModel: [{ field: 'priority', sort: 'asc' }]
-              }
+                sortModel: [{ field: 'priority', sort: 'asc' }],
+              },
             }}
           />
         </div>
