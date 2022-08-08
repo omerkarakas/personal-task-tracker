@@ -11,7 +11,7 @@ const TaskList = () => {
     useContext(AppContext);
 
   const deleteTaskHandler = (taskId) => {
-    console.log('task to be deleted :', taskId);
+    //    console.log('task to be deleted :', taskId);
     openConfirm(taskId);
   };
 

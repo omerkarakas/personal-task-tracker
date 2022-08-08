@@ -16,10 +16,10 @@ const initialPriorities = [{ id: 1, title: 'Anything', color: 'purple' }];
 
 const getStorageTasks = () => {
   let tasks = initialTasks;
-  console.log(tasks);
+  //  console.log(tasks);
   if (localStorage.getItem('tasks-ptt')) {
     tasks = JSON.parse(localStorage.getItem('tasks-ptt'));
-    console.log(tasks);
+    //    console.log(tasks);
   }
   return tasks;
 };

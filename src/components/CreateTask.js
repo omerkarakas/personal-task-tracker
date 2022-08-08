@@ -9,19 +9,26 @@ import {
   MenuItem,
   Select,
   TextField,
-  Typography
+  Typography,
 } from '@mui/material';
 import AppContext from '../context/AppContext';
 import { CustomizedBox } from './CustomizedBox';
 
 const CreateTask = () => {
-  const { initialPriorities, priorities, addTask, updateTask, closeModal, currentTask, action } =
-    useContext(AppContext);
+  const {
+    initialPriorities,
+    priorities,
+    addTask,
+    updateTask,
+    closeModal,
+    currentTask,
+    action,
+  } = useContext(AppContext);
 
   const initialJob = {
     id: 0,
     name: '',
-    priority: priorities[0].id || initialPriorities[0].id
+    priority: priorities[0].id || initialPriorities[0].id,
   };
 
   const [jobId, setJobId] = useState(initialJob.id);
@@ -90,7 +97,7 @@ const CreateTask = () => {
               disabled={action === 'update'}
               error={jobNameError}
               sx={{
-                marginBottom: 2
+                marginBottom: 2,
               }}
             />
           </FormControl>
@@ -100,8 +107,9 @@ const CreateTask = () => {
               flexDirection: 'row',
               justifyContent: 'space-evenly',
               alignItems: 'center',
-              height: '50px'
-            }}>
+              height: '50px',
+            }}
+          >
             <FormControl fullWidth>
               <InputLabel id="priority-label">Priority</InputLabel>
               <Select
@@ -114,10 +122,11 @@ const CreateTask = () => {
                 required
                 // data-testid="select-option"
                 onChange={(event, newValue) => {
-                  console.log('ev:', event);
-                  console.log('val:', newValue);
+                  // console.log('ev:', event);
+                  // console.log('val:', newValue);
                   setJobPriority(newValue.props.value);
-                }}>
+                }}
+              >
                 {priorities &&
                   priorities.map((priority, index) => {
                     return (
@@ -142,7 +151,8 @@ const CreateTask = () => {
               color="primary"
               variant="contained"
               startIcon={<AddCircleOutline />}
-              sx={{ marginLeft: 2 }}>
+              sx={{ marginLeft: 2 }}
+            >
               {action === 'update' && 'Update'}
               {action === 'insert' && 'Insert'}
             </Button>
