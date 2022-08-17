@@ -2,7 +2,7 @@
 
 ## Live demo
 
-https://personel-tasktracker.netlify.app
+https://personal-tasktracker.netlify.app
 
 ---
 
@@ -12,7 +12,7 @@ This app is a personal task tracker developed using **react.js** and **material-
 
 User tasks stored in the local storage, so that previously entered tasks are displayed when the page loads again.
 
-This website consumes the api https://task-priorities.herokuapp.com/ whose code is **[here](https://github.com/omerkarakas/personel-task-tracker-api)**
+This website consumes the api https://task-priorities.herokuapp.com/ whose code is **[here](https://github.com/omerkarakas/personal-task-tracker-api)**
 
 ---
 
@@ -36,7 +36,7 @@ Then the react app will run on http://localhost:3000 address.
 
 ## How to Tweak ?
 
-This website consumes the api https://task-priorities.herokuapp.com/ whose code is [here](https://github.com/omerkarakas/personel-task-tracker-api)
+This website consumes the api https://task-priorities.herokuapp.com/ whose code is [here](https://github.com/omerkarakas/personal-task-tracker-api)
 
 ### Want to change the priorities?
 
