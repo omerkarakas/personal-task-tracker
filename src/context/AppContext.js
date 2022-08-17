@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 //const url = '/priority';
-const url = 'http://localhost:5000/priority';
+const url = 'https://task-priorities.herokuapp.com';
 
 const AppContext = createContext(null);
 
@@ -99,7 +99,7 @@ export const AppProvider = ({ children }) => {
     const fetchPriorities = async () => {
       const response = await fetch(url);
       const data = await response.json();
-      setPriorities(data);
+      setPriorities(data.priorities);
     };
     fetchPriorities();
   }, []);
